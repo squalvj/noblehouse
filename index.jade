@@ -1,0 +1,113 @@
+doctype html
+html
+	head
+		meta(charset="utf-8")
+		meta(http-equiv="x-ua-compatible" content="ie=edge")
+		title Testing
+		meta(name="description" content="")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		link(rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css")
+		link(rel="stylesheet" href="assets/bower_components/fullpage.js/dist/jquery.fullpage.min.css")
+		link(rel ="stylesheet" href="assets/css/main.css")
+	body
+		.side-nav
+			.bg-black
+			.content-nav
+				button#close-nav
+					img(src="assets/img/close.svg")
+				a(href="#").logo-text
+					img(src="assets/img/logo_text.svg")
+				p Jl. Dr. Ide Anak Agung Gede Agung Kav. E 4.2 No. 2, Jakarta 12950 Tel. +62 21 2978 3000 Fax. +62 21 2978 3001 marketing@noblehouse.co.id <br><br>PT Graha Lestari Internusa
+				.contact-nav
+					button#back-contact
+							img(src="assets/img/arrow.svg")
+					form
+						input(type="text" name="name" placeholder="Name")
+						input(type="email" name="email" placeholder="E-mail")
+						input(type="text" name="company" placeholder="Company")
+						input(type="text" name="address" placeholder="Address")
+						textarea(rows="5" placeholder="Requirement")
+						button(type="submit").btn-more SUBMIT
+				ul.menu-ul
+					li
+						span 01
+						a(href="#") Welcome
+					li 
+						span 02
+						a(href="#") Office
+					li 
+						span 03
+						a(href="#") Lifestyle
+					li 
+						span 04
+						a(href="#") News & Promotion
+					li 
+						span 05
+						a(href="#" type="button")#contact-btn Contact Us
+				p.copyright ©2015 Noble House. All Right Reserved.
+			
+
+
+		.main
+			.callback
+			#fullpage
+				.section.home
+					.container
+						.wrapper-content
+							img(src="assets/img/logo.svg")
+							a(href="#")
+								img(src="assets/img/play-ico.svg")
+					.mouse
+						img(src="assets/img/mouse.svg").m
+						.wrapper-arrow
+							img(src="assets/img/arrow.svg")
+						h5 scroll to skip video
+				
+				.section.menu.rel
+					.modal
+						.wrapper-modal
+							h1 Announcment #1
+							p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse venenatis mi varius malesuada commodo. Pellentesque pellentesque vel purus vitae porttitor. Fusce tincidunt massa vel ex fringilla scelerisque vitae id nisi. Phasellus lacinia lectus vitae viverra consectetur. Fusce ultrices nunc id neque tincidunt fermentum. Curabitur ut egestas lorem. Aliquam placerat ut massa nec maximus. Morbi luctus felis mauris, a venenatis diam feugiat non. Sed nisl nulla, sagittis quis metus at, blandit varius enim.
+							button.btn-close-modal CLOSE X
+					.bg
+						//- img(src="assets/img/logo_menu.jpg")
+					.container
+						.wrapper-content
+							h1.header-text Dynamic Collaboration, Real Impact
+							.items-left-right
+								.item-left
+									h2 Office
+									p Designed to bring people together for dynamic <br>collaboration, Noble House’s vision goes <br>beyond a merely modern and elegant design, 
+									a(href="#")
+										button.btn-more.btn More
+								.item-right
+									h2 Lifestyle
+									p Surrounded by a diverse and exciting environment<br> in Jakarta’s only pedestrian-friendly business<br> neighborhood.
+									a(href="#")
+										button.btn-more.btn More
+					.navbars
+						.nav-top
+							a(href="#")
+								img(class="logo_putih" src="assets/img/logo_putih.svg")
+							.wrapper-kotak
+								button#open-nav
+									img(src="assets/img/kotak4.svg")
+						.nav-bot
+							.left
+								a(href="#") enquiries
+								a(href="#") facebook
+								a(href="#") twitter
+								a(href="#") instagram
+							.right
+								h5 ©2015 Noble House. All Right Reserved.
+				
+
+
+
+
+		script(type="text/javascript" src="assets/bower_components/jquery/dist/jquery.min.js")
+		script(type="text/javascript" src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js")
+		script(type="text/javascript" src="assets/bower_components/fullpage.js/vendors/scrolloverflow.min.js")
+		script(type="text/javascript" src="assets/bower_components/fullpage.js/dist/jquery.fullpage.min.js")
+		script(type="text/javascript" src="assets/js/greensock-js/TweenMax.min.js")
+		script(type="text/javascript" src="assets/js/main.js")

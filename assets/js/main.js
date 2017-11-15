@@ -1,44 +1,73 @@
+
+
 $(document).ready(function() {
-	var placeHolder = $(".callback")
-	var deleteLog = false;
-	$('#fullpage').fullpage({
-		css3: true,
-		scrollingSpeed: 2000,
-		scrollOverflow: true,
-		anchors: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
-		onLeave: function(index, nextIndex, direction) {
-		    var el = $(this);
-		    var child = el.find('.wrapper-content').children()
-		    var nextEl = el.parent().children().eq(nextIndex-1)
-		    
-		    child.each(function(index, el) {
-		    	var i = index+=1;
-		    	ilang(el,i * 0.8)
-		    });
-		    var childrenNext = nextEl.find('.wrapper-content').children()
-		    opacity(childrenNext)
-		    childrenNext.each(function(index, el) {
-		    	var i = index+=1;
-		    	muncul(el, i* 0.9)
-		    });
-	  	},
-	  	afterLoad: function(anchorLink, index) {
-		    //muncul($(this))
-	  	},
-	});
-
-	function ilang(el, del){
-		TweenMax.to(el, del, {y:40, opacity:0 ,ease: Back.easeIn.config(1.7)})
+	if ($("#fullpage").length == 1){
+		$('#fullpage').fullpage({
+			css3: true,
+			scrollingSpeed: 2000,
+			scrollOverflow: true,
+			anchors: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
+			onLeave: function(index, nextIndex, direction) {
+			    var el = $(this);
+			    var child = el.find('.wrapper-content').children()
+			    var nextEl = el.parent().children().eq(nextIndex-1)
+		     	var childrenNext = nextEl.find('.wrapper-content').children()
+			    opacity(childrenNext)
+			    child.each(function(index, el) {
+			    	var i = index+=1;
+			    	ilang(el,i * 0.8)
+			    });
+			   
+			    
+			    childrenNext.each(function(index, el) {
+			    	var i = index+=1;
+			    	muncul(el, i* 0.9)
+			    });
+		  	},
+		  	afterLoad: function(anchorLink, index) {
+			    //muncul($(this))
+		  	},
+		});
+	}
+	if ($("#fullpage-office").length == 1){
+		$('#fullpage-office').fullpage({
+			scrollingSpeed: 2500,
+			scrollOverflow: true,
+			onLeave: function(index, nextIndex, direction) {
+			    var el = $(this);
+			    var child = el.find('.items-left-right').children()
+			    var nextEl = el.parent().children().eq(nextIndex-1)
+			    ilangStagger(child,.5)
+			    var childrenNext = nextEl.find('.items-left-right').children()
+			    opacity(childrenNext)
+			   	munculStagger(childrenNext,.3)
+		  	},
+		  	afterLoad: function(anchorLink, index) {
+			   console.log("ASD")
+		  	},
+		});
 	}
 
-	function muncul(el, del){
-		TweenMax.from(el, del, {opacity:0, y:-20 ,delay:2.1, ease: Power4.easeOut})
-	}
+function ilang(el, del){
+	TweenMax.to(el, del, {y:40, opacity:0 ,ease: Back.easeIn.config(1.7)})
+}
+
+function muncul(el, del){
+	TweenMax.from(el, del, {opacity:0, y:-20 ,delay:2.1, ease: Power4.easeOut})
+}
+
+function ilangStagger(el,del){
+	TweenMax.staggerTo(el, 1, {y:40, opacity:0 ,ease: Back.easeIn.config(1.7)}, del)
+}
+
+function munculStagger(el,del){
+	TweenMax.staggerFrom(el, .5, {opacity:0, y:-20 ,delay:2.1, ease: Power4.easeOut},del)
+}
 
 
-	function opacity(el){
-		TweenMax.set(el,{opacity:1,y:0})
-	}
+function opacity(el){
+	TweenMax.set(el,{opacity:1,y:0})
+}
 
 	$("#close-nav").click(function(event) {
 		$(".side-nav").removeClass('active')

@@ -1,11 +1,13 @@
 
 
 $(document).ready(function() {
-	var bullet = $(".slide").length
-	var interval
-  	for (var i = 1; i <= bullet; i++) {
-  		$(".bullet-nav").append('<a class="bullet-child" href="#one/slide'+i+'"></a>')
-  	}
+	// var bullet = $(".slide").length
+	// var interval
+ //  	for (var i = 1; i <= bullet; i++) {
+ //  		$(".bullet-nav").append('<a class="bullet-child" href="#one/slide'+i+'"></a>')
+ //  	}
+ 	var isInvert = false;
+ 	var interval = [];
 	if ($("#fullpage").length == 1){
 		$('#fullpage').fullpage({
 			css3: true,
@@ -41,7 +43,7 @@ $(document).ready(function() {
 			anchors: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine','ten'],
 			//slidesNavigation: false,
 			controlArrows: false,
-		slidesNavPosition: 'bottom',
+			//slidesNavPosition: 'bottom',
 			onLeave: function(index, nextIndex, direction) {
 			    var el = $(this);
 			    var child = el.find('.items-left-right').children()
@@ -50,25 +52,43 @@ $(document).ready(function() {
 			    var childrenNext = nextEl.find('.items-left-right').children()
 			    opacity(childrenNext)
 			   	munculStagger(childrenNext,.3)
-			   	if (nextIndex == 1){
-			   		stopAutoScroll();
+			   	// if (nextIndex == 1){
+			   	// 	stopAutoScroll();
+			   	// }
+			   	changeBulletNav(nextIndex)
+			   	var nextEl = $(".section").eq(nextIndex-1)
+			   	var invert = nextEl.find('.invert')
+			   	if (invert.length){
+			   		fadeInOut($(".top-left").first(), $(".top-left").last())
+			   		right($(".top-right").first(),$(".top-right").last() )
+			   		opacity2($(".bottom-left").first(), $(".bottom-left").last())
+			   		opacity2($(".bottom-right").first(), $(".bottom-right").last())
+			   		$(".bullet-right").addClass('invert')
 			   	}
-			   	switch (direction){
-			   		case 'up':
-			   			prevBullet();
-			   			break;
-			   		case 'down':
-			   			nextBullet();
-			   			break;
+			   	else{
+			   		fadeInOut($(".top-left").last(), $(".top-left").first())
+			   		right($(".top-right").last(),$(".top-right").first() )
+			   		opacity2($(".bottom-left").last(), $(".bottom-left").first())
+			   		opacity2($(".bottom-right").last(), $(".bottom-right").first())
+			   		$(".bullet-right").removeClass('invert')
 			   	}
 		  	},
 		  	afterLoad: function(anchorLink, index) {
-		  		
+
 		  	},
 	  	 	afterRender: function () {
+	  	 		//determine which section active and add active class to nav right
+	  	 		var container = $(this);
+	  	 		var section = container.find('.section')
+	  	 		for (var i = 0; i < section.length; i++){
+	  	 			section.eq(i).attr('data-count', i);
+	  	 		}
+	  	 		setTimeout( function(){ 
+		  	 		var active = container.find('.fp-section.active')
+		  	 		initBulletRight($(".section"),active.data('count'))
+			  	}  , 500 );
+	  	 		initBulletSlide()
   	 			startAutoScroll()
-	  	 		$(".bullet-child").eq(0).addClass('active')
-	  	 		initBulletRight($(".section"))
 			},
 			onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
 				
@@ -76,44 +96,82 @@ $(document).ready(function() {
 		});
 	}
 
-	function initBulletRight(el){
+	function fadeInOut(el, el2){
+		TweenMax.to(el, 1, {scale:2,delay:1,opacity:0})
+		TweenMax.to(el2, 1, {scale:1,delay:1,opacity:1})
+	}
+
+	function right(el,el2){
+		TweenMax.to(el, 1, {x:150,opacity:0,delay:1})
+		TweenMax.to(el2, 1, {x:0,opacity:1,delay:1})
+	}
+
+	function opacity2(el, el2){
+		TweenMax.to(el, 1, {opacity:0,delay:1,display:'none'})
+		TweenMax.to(el2, 1, {opacity:1,delay:1,display:'flex'})
+		console.log("ASD")
+	}
+
+	function initBulletSlide(){
+		var bullet = $(".bullet-nav")
+		var parent = bullet.parent()
+		var slide = [];
+		for (var i = 0; i < parent.length; i++){
+			slide[i] = parent.eq(i).find('.slide')
+
+		}
+		for (var k = 0; k < slide.length; k++){
+			var bulletInside = slide[k].closest('.section').find('.bullet-nav')
+			for (var z = 0; z < slide[k].length; z++){
+				var it = z+1;
+				var it2 = k+1;
+				var anchor = slide[k].closest('.section').data('anchor')
+				// bulletInside.append('<a class="bullet-child" data-interval="'+ it2 +'" href="#'+anchor+'/slide'+ it +'"></a>')
+				bulletInside.append('<a class="bullet-child" data-interval="'+ it2 +'"></a>')
+			}
+		}
+	}
+
+	function initBulletRight(el, eq){
 		var count = el.length
 		var anchor
 		for (var i = 1; i <= count; i++){
 			anchor = el.eq(i-1).data('anchor')
-			$(".bullet-right").append('<a class="bullet-right-child" href="#'+anchor+'"><span></span></a>')
+			$(".bullet-right").append('<a class="bullet-right-child '+i+'" href="#'+anchor+'"><span></span></a>')
 		}
-		$(".bullet-right-child").eq(0).addClass('active')
+		$(".bullet-right-child").eq(eq).addClass('active')
 	}
 
 	function startAutoScroll(){
-		interval = setInterval(function () {
-			$.fn.fullpage.moveSlideRight();
-			var bullet = $(".bullet-child.active")
-			var next = bullet.next();
-			if (bullet.is(':last-child')){
+		var bulletnav = $(".bullet-nav")
+		var bfirst = $(".bullet-nav .bullet-child:first-child")
+		bfirst.addClass('active')
+		for (var i = 0; i < bulletnav.length; i++){
+			var container = bulletnav.eq(i)
+			var section = container.closest('.section')
+			startauto(interval,i, container, section)
+		}
+		
+	}
+
+	function startauto(el, index, container, section){
+		el[index] = setInterval(function () {
+			if (section.hasClass('active')){
+				var bullet = container.find('.bullet-child.active')
+				var next = bullet.next();
+				if (bullet.is(':last-child')){
+					bullet.removeClass('active')
+					bullet = container.children('.bullet-child:first-child')
+					next = bullet
+				}
 				bullet.removeClass('active')
-				bullet = $(".bullet-nav").children('.bullet-child:first-child')
-				next = bullet
+				next.addClass('active')
+				$.fn.fullpage.moveSlideRight();
 			}
-			bullet.removeClass('active')
-			next.addClass('active')
 		}, 7000);
 	}
 
-	function nextBullet(){
-		var next = $(".bullet-right-child.active").next();
-		$(".bullet-right-child").removeClass('active')
-		next.addClass('active')
-	}
-
-	function prevBullet(){
-		var prev = $(".bullet-right-child.active").prev();
-		$(".bullet-right-child").removeClass('active')
-		prev.addClass('active')
-	}
-
-	function stopAutoScroll(){
+	function stopAutoScroll(interval){
 		clearInterval(interval);
 	}
 
@@ -138,16 +196,21 @@ $(document).ready(function() {
 		TweenMax.set(el,{opacity:1,y:0})
 	}
 
-	$('.bullet-right').on('click', '.bullet-right-child', function() {
-		$(".bullet-right-child").removeClass('active')
-		$(this).addClass('active')
-		console.log($(this))
-	});
+	function changeBulletNav(nextIndex){
+		$(".bullet-right .bullet-right-child").removeClass('active')
+	   	$(".bullet-right ").find('.'+nextIndex).addClass('active')
+	}
 
 	$(".bullet-child").click(function(event) {
-		$(".bullet-child").removeClass('active')
-		stopAutoScroll();
-		$(this).addClass('active')
+		// $(".bullet-child").removeClass('active')
+		// stopAutoScroll();
+		// $(this).addClass('active')
+		event.preventDefault();
+	});
+
+	// kocak
+	$('[data-toggle="collapse"]').click(function() {
+	  $('.collapse.in').collapse('hide')
 	});
 
 	$("#close-nav").click(function(event) {
@@ -156,7 +219,7 @@ $(document).ready(function() {
     	$.fn.fullpage.setAllowScrolling(true);
     	TweenMax.to($(".bg-black"),.5, {opacity:0,right:'-100vw'})
 	});
-	$("#open-nav").click(function(event) {
+	$(".open-nav").click(function(event) {
 		$(".side-nav").addClass('active')
 		$.fn.fullpage.setMouseWheelScrolling(false);
 		$.fn.fullpage.setAllowScrolling(false);
@@ -188,6 +251,10 @@ $(document).ready(function() {
 
 	function init(){
 		var arrow = $(".wrapper-arrow img")
+		TweenMax.to($(".top-left").last(), 0, {scale:2,opacity:0})
+		TweenMax.to($(".top-right").last(), 0, {x:150,opacity:0})
+		TweenMax.to($(".bottom-left").last(), 0, {display:'none', opacity:0})
+		TweenMax.to($(".bottom-right").last(), 0, {display:'none', opacity:0})
 		TweenMax.fromTo(arrow, 2, {y:-20,ease:Circ},{y:20,repeatDelay:1, ease:Circ, repeat:-1,})
 	}
 	init();

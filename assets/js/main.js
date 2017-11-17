@@ -11,7 +11,6 @@ $(document).ready(function() {
  	$('.section').each(function(el, i) {
  		namaAnchor[el] = $(this).data('nama')
  	});
- 	console.log(namaAnchor)
  	var isInvert = false;
  	var interval = [];
 	if ($("#fullpage").length == 1){
@@ -30,8 +29,6 @@ $(document).ready(function() {
 			    	var i = index+=1;
 			    	ilang(el,i * 0.8)
 			    });
-			   
-			    
 			    childrenNext.each(function(index, el) {
 			    	var i = index+=1;
 			    	muncul(el, i* 0.9)
@@ -45,6 +42,7 @@ $(document).ready(function() {
 	if ($("#fullpage-office").length == 1){
 		$('#fullpage-office').fullpage({
 			scrollingSpeed: 2500,
+			css3: true,
 			scrollOverflow: true,
 			// anchors: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine','ten'],
 
@@ -82,7 +80,7 @@ $(document).ready(function() {
 			   	}
 		  	},
 		  	afterLoad: function(anchorLink, index) {
-
+		  		
 		  	},
 	  	 	afterRender: function () {
 	  	 		//determine which section active and add active class to nav right
@@ -99,7 +97,7 @@ $(document).ready(function() {
   	 			startAutoScroll()
 			},
 			onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
-				
+				console.log('move')
 			}
 		});
 	}
@@ -123,18 +121,22 @@ $(document).ready(function() {
 		var bullet = $(".bullet-nav")
 		var parent = bullet.parent()
 		var slide = [];
+		var anc = [[],[]];
 		for (var i = 0; i < parent.length; i++){
 			slide[i] = parent.eq(i).find('.slide')
-
+			anc[i][''] = i
+			for (var l = 0; l < parent.eq(i).find('.slide').length; l++){
+				anc[i][l] = parent.eq(i).find('.slide').eq(l).data('anchor')
+				//console.log(parent.eq(i).find('.slide').eq(l).data('anchor'))
+			}
 		}
 		for (var k = 0; k < slide.length; k++){
 			var bulletInside = slide[k].closest('.section').find('.bullet-nav')
 			for (var z = 0; z < slide[k].length; z++){
-				var it = z+1;
 				var it2 = k+1;
 				var anchor = slide[k].closest('.section').data('anchor')
 				// bulletInside.append('<a class="bullet-child" data-interval="'+ it2 +'" href="#'+anchor+'/slide'+ it +'"></a>')
-				bulletInside.append('<a class="bullet-child" data-interval="'+ it2 +'"></a>')
+				bulletInside.append('<a class="bullet-child" href="#'+anchor+'/'+ anc[k][z] + '" data-interval="'+ it2 +'"></a>')
 			}
 		}
 	}
@@ -212,7 +214,7 @@ $(document).ready(function() {
 		// $(".bullet-child").removeClass('active')
 		// stopAutoScroll();
 		// $(this).addClass('active')
-		event.preventDefault();
+		//event.preventDefault();
 	});
 
 	// kocak

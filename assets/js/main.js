@@ -210,7 +210,8 @@ $(document).ready(function() {
 
 	// kocak
 	$('[data-toggle="collapse"]').click(function() {
-	  $('.collapse.in').collapse('hide')
+		$('.collapse.in').collapse('hide')
+		$(this).closest('.item-accordion').next().collapse('toggle')
 	});
 
 	$("#close-nav").click(function(event) {

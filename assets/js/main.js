@@ -211,7 +211,13 @@ $(document).ready(function() {
 	// kocak
 	$('[data-toggle="collapse"]').click(function() {
 		$('.collapse.in').collapse('hide')
-		$(this).closest('.item-accordion').next().collapse('toggle')
+		$(this).parent().next().collapse('toggle')
+		// $(this).find('img').first().toggleClass('dnone');
+		// $(this).find('img').last().toggleClass('dinline');
+		$(".btn-accor").find('img:last-child').removeClass('dinline')
+		$(".btn-accor").find('img:first-child').removeClass('dnone')
+		$(this).find('img:first-child').addClass('dnone')
+		$(this).find('img:last-child').addClass('dinline')
 	});
 
 	$("#close-nav").click(function(event) {
@@ -252,11 +258,15 @@ $(document).ready(function() {
 
 	function init(){
 		var arrow = $(".wrapper-arrow img")
+		var firstButtonPlus = $('.item-accordion-c.in').prev().find('img').first()
+		firstButtonPlus.addClass('dnone').next().addClass('dinline')
 		TweenMax.to($(".top-left").last(), 0, {scale:2,opacity:0})
 		TweenMax.to($(".top-right").last(), 0, {x:150,opacity:0})
 		TweenMax.to($(".bottom-left").last(), 0, {display:'none', opacity:0})
 		TweenMax.to($(".bottom-right").last(), 0, {display:'none', opacity:0})
+		TweenMax.to($(".min"), 0, {display:'none'})
 		TweenMax.fromTo(arrow, 2, {y:-20,ease:Circ},{y:20,repeatDelay:1, ease:Circ, repeat:-1,})
+
 	}
 	init();
 });

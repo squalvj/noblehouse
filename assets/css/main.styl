@@ -606,22 +606,24 @@ body
 	background white
 	
 .wrapper-accordion
-	width 100%
-	margin 50px 0 0
+	width 50%
+	margin 30px 0 0
 	display flex
-	flex-direction row
-	flex-wrap wrap
+	flex-direction column
 	align-items baseline
+	float left
+	&:nth-child(even)
+		padding-right 15px
 	.item-accordion
 		display flex
 		flex-direction row
 		justify-content space-between
 		align-items flex-end
 		flex-wrap wrap
-		width 50%
+		width 100%
 		padding-bottom 25px
 		.item-left-accordion
-			width 40%
+			width 50%
 			display flex
 			flex-direction column
 			align-items flex-start
@@ -631,7 +633,7 @@ body
 				font-family quickR
 				margin 10px 0 0
 		.item-right-accordion
-			width 60%
+			width 50%
 			button
 				width 18px
 				height 18px
@@ -640,7 +642,7 @@ body
 				position relative
 				padding 0
 		.item-accordion-c
-			width 80%
+			width 100%
 .inside-accordion-c
 	display flex
 	flex-direction row
@@ -658,6 +660,16 @@ body
 .dinline
 	display inline !important
 	
+.btn-accor
+	img:first-child
+		display inline
+	img:last-child
+		display none
+	&.active
+		img:first-child
+			display none
+		img:last-child
+			display inline
 // --------------------------------------------------------------------
 @media (min-width: 1200px)
 	.items-left-right.invert 
@@ -677,6 +689,14 @@ body
 				&:last-child
 					margin-top 50px
 @media (max-width: 576px)
+	.wrapper-accordion
+		float none
+		width 100%
+		&:nth-child(even)
+			margin-top 30px
+			padding-right 0
+		&:nth-child(odd)
+			margin-top 0
 	.modal
 		justify-content center
 		.wrapper-modal

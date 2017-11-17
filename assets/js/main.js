@@ -6,6 +6,12 @@ $(document).ready(function() {
  //  	for (var i = 1; i <= bullet; i++) {
  //  		$(".bullet-nav").append('<a class="bullet-child" href="#one/slide'+i+'"></a>')
  //  	}
+
+ 	var namaAnchor = []
+ 	$('.section').each(function(el, i) {
+ 		namaAnchor[el] = $(this).data('nama')
+ 	});
+ 	console.log(namaAnchor)
  	var isInvert = false;
  	var interval = [];
 	if ($("#fullpage").length == 1){
@@ -40,8 +46,10 @@ $(document).ready(function() {
 		$('#fullpage-office').fullpage({
 			scrollingSpeed: 2500,
 			scrollOverflow: true,
-			anchors: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine','ten'],
+			// anchors: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine','ten'],
+
 			//slidesNavigation: false,
+			anchors: namaAnchor,
 			controlArrows: false,
 			//slidesNavPosition: 'bottom',
 			onLeave: function(index, nextIndex, direction) {
@@ -109,7 +117,6 @@ $(document).ready(function() {
 	function opacity2(el, el2){
 		TweenMax.to(el, 1, {opacity:0,delay:1,display:'none'})
 		TweenMax.to(el2, 1, {opacity:1,delay:1,display:'flex'})
-		console.log("ASD")
 	}
 
 	function initBulletSlide(){
@@ -211,10 +218,10 @@ $(document).ready(function() {
 	// kocak
 	var i =false
 	$('[data-toggle="collapse"]').click(function() {
-		$('.collapse.in').collapse('hide')
+		var parent = $(this).closest('.item-left')
+		parent.find('.collapse.in').collapse('hide')
 		$(this).parent().next().collapse('toggle')
-
-		$('.btn-accor').not($(this)).removeClass('active')
+		parent.find('.btn-accor').not($(this)).removeClass('active')
 		$(this).toggleClass('active')
 		
 	});
@@ -223,6 +230,8 @@ $(document).ready(function() {
 		$(".side-nav").removeClass('active')
 	 	$.fn.fullpage.setMouseWheelScrolling(true);
     	$.fn.fullpage.setAllowScrolling(true);
+    	$(".contact-nav").removeClass('active')
+    	TweenMax.to($(".menu-ul"), .10, {opacity:1})
     	TweenMax.to($(".bg-black"),.5, {opacity:0,right:'-100vw'})
 	});
 	$(".open-nav").click(function(event) {
